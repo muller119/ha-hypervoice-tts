@@ -12,16 +12,16 @@ from homeassistant.components.tts import (
     Voice,
 )
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HyperVoiceConfigEntry
 from .const import (
     API_BASE_URL,
-    CONF_CONTEXT_AWARE,
-    CONF_SPEAKING_RATE,
-    CONF_VOICE_NAME,
-    DEFAULT_SPEAKING_RATE,
+    CONF_SPEED,
+    CONF_VOICE,
+    DEFAULT_SPEED,
     DEFAULT_VOICE,
     DOMAIN,
     VOICES,
@@ -42,11 +42,10 @@ class HyperVoiceTTSEntity(TextToSpeechEntity):
 
     _attr_supported_languages = ["en"]
     _attr_default_language = "en"
-    _attr_supported_options = ["voice", "speaking_rate", "context_aware"]
+    _attr_supported_options = ["voice", "speed"]
     _attr_default_options = {
-        CONF_VOICE_NAME: DEFAULT_VOICE,
-        CONF_SPEAKING_RATE: DEFAULT_SPEAKING_RATE,
-        CONF_CONTEXT_AWARE: True,
+        CONF_VOICE: DEFAULT_VOICE,
+        CONF_SPEED: DEFAULT_SPEED,
     }
     _attr_has_entity_name = True
     _attr_name = None
@@ -58,7 +57,7 @@ class HyperVoiceTTSEntity(TextToSpeechEntity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, config_entry.entry_id)},
             manufacturer="TaskAGI",
-            model="HyperVoice V4",
+            model="HyperVoice V5",
             name="HyperVoice TTS",
             entry_type=DeviceEntryType.SERVICE,
         )
@@ -74,16 +73,15 @@ class HyperVoiceTTSEntity(TextToSpeechEntity):
         language: str,
         options: dict[str, Any],
     ) -> TtsAudioType:
-        """Generate TTS audio from HyperVoice API."""
-        voice_name = options.get(CONF_VOICE_NAME, DEFAULT_VOICE)
-        speaking_rate = options.get(CONF_SPEAKING_RATE, DEFAULT_SPEAKING_RATE)
-        context_aware = options.get(CONF_CONTEXT_AWARE, True)
+        """Generate TTS audio from HyperVoice V5 API."""
+        voice = options.get(CONF_VOICE, DEFAULT_VOICE)
+        speed = options.get(CONF_SPEED, DEFAULT_SPEED)
 
         payload: dict[str, Any] = {
             "text": message,
-            "voice_name": voice_name,
-            "speaking_rate": speaking_rate,
-            "context_aware": context_aware,
+            "voice": voice,
+            "speed": speed,
+            "format": "mp3",
         }
 
         headers = {
@@ -93,7 +91,7 @@ class HyperVoiceTTSEntity(TextToSpeechEntity):
 
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                f"{API_BASE_URL}/text-to-speech",
+                f"{API_BASE_URL}/tts",
                 json=payload,
                 headers=headers,
                 timeout=aiohttp.ClientTimeout(total=60),

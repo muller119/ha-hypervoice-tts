@@ -1,28 +1,33 @@
 """Constants for the HyperVoice TTS integration."""
 
 DOMAIN = "hypervoice"
-CONF_VOICE_NAME = "voice_name"
-CONF_SPEAKING_RATE = "speaking_rate"
-CONF_CONTEXT_AWARE = "context_aware"
+CONF_VOICE = "voice"
+CONF_SPEED = "speed"
 
-DEFAULT_VOICE = "emma"
-DEFAULT_SPEAKING_RATE = 15
+DEFAULT_VOICE = "Blake"
+DEFAULT_SPEED = 1.0
 
-API_BASE_URL = "https://taskagi.net/api/hypervoice/v4"
+API_BASE_URL = "https://taskagi.net/api/hypervoice/v5"
 
 VOICES = [
-    ("emma", "Emma"),
-    ("peter", "Peter"),
-    ("V3_af_alloy", "Alloy (V3)"),
-    ("V3_af_aoede", "Aoede (V3)"),
-    ("V3_af_bella", "Bella (V3)"),
-    ("V3_af_jessica", "Jessica (V3)"),
-    ("V3_af_kore", "Kore (V3)"),
-    ("V3_af_nicole", "Nicole (V3)"),
-    ("V3_af_nova", "Nova (V3)"),
-    ("V3_af_river", "River (V3)"),
-    ("V3_af_sarah", "Sarah (V3)"),
-    ("V3_af_sky", "Sky (V3)"),
-    ("V3_am_adam", "Adam (V3)"),
-    ("V3_am_echo", "Echo (V3)"),
+    ("Blake", "Blake"),
+    ("Mark", "Mark"),
+    ("Chloe", "Chloe"),
+    ("Graham", "Graham"),
+    ("Carter", "Carter"),
+    ("Jason", "Jason"),
+    ("Luna", "Luna"),
+    ("Aaron", "Aaron"),
+    ("Lucia", "Lucia"),
+    ("Raphael", "Raphael"),
+    ("Mei", "Mei"),
+    ("Haruto", "Haruto"),
+    ("Aria", "Aria"),
+    ("Ethan", "Ethan"),
+    ("Maya", "Maya"),
+    ("Oliver", "Oliver"),
+    ("Zara", "Zara"),
+    ("Nathan", "Nathan"),
+    ("Sophia", "Sophia"),
+    ("Daniel", "Daniel"),
 ]

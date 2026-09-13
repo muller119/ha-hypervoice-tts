@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
+import aiohttp
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
@@ -19,34 +20,21 @@ USER_STEP_SCHEMA = vol.Schema(
 
 
 async def _validate_api_key(hass, api_key: str) -> None:
-    """Validate the API key by calling the TTS endpoint with empty text."""
-    import aiohttp
-
+    """Validate the API key by listing voices."""
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "text": "test",
-        "voice_name": "emma",
-        "speaking_rate": 15,
-        "context_aware": True,
     }
 
-    session = aiohttp.ClientSession()
-    try:
-        async with session.post(
-            f"{API_BASE_URL}/text-to-speech",
-            json=payload,
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            f"{API_BASE_URL}/voices",
             headers=headers,
             timeout=aiohttp.ClientTimeout(total=30),
         ) as resp:
-            if resp.status == 401 or resp.status == 403:
+            if resp.status in (401, 403):
                 raise InvalidAuth
             if resp.status != 200:
                 raise CannotConnect
-    finally:
-        session.close()
 
 
 class HyperVoiceConfigFlow(ConfigFlow, domain=DOMAIN):
