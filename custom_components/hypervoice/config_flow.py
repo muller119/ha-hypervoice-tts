@@ -49,11 +49,12 @@ class HyperVoiceConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            await self.async_set_unique_id(user_input[CONF_API_KEY])
+            api_key = user_input[CONF_API_KEY].strip()
+            await self.async_set_unique_id(api_key)
             self._abort_if_unique_id_configured()
 
             try:
-                await _validate_api_key(self.hass, user_input[CONF_API_KEY])
+                await _validate_api_key(self.hass, api_key)
             except InvalidAuth:
                 errors["base"] = "invalid_api_key"
             except CannotConnect:
@@ -63,7 +64,7 @@ class HyperVoiceConfigFlow(ConfigFlow, domain=DOMAIN):
             else:
                 return self.async_create_entry(
                     title="HyperVoice TTS",
-                    data=user_input,
+                    data={CONF_API_KEY: api_key},
                 )
 
         return self.async_show_form(
