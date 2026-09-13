@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HyperVoice TTS",
+        "description": "Vul je TaskAGI API key in om HyperVoice text-to-speech te gebruiken.",
+        "data": {
+          "api_key": "API Key"
+        }
+      }
+    },
+    "error": {
+      "invalid_api_key": "Ongeldige API key.",
+      "cannot_connect": "Kan geen verbinding maken met de HyperVoice API.",
+      "unknown": "Onbekende fout opgetreden."
+    },
+    "abort": {
+      "already_configured": "Deze integratie is al geconfigureerd."
+    }
+  }
+}

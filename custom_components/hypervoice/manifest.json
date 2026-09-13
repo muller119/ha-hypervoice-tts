@@ -1,0 +1,12 @@
+{
+  "domain": "hypervoice",
+  "name": "HyperVoice TTS",
+  "version": "1.0.0",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/YOUR_USERNAME/ha-hypervoice-tts",
+  "integration_type": "service",
+  "iot_class": "cloud_push",
+  "loggers": ["hypervoice"],
+  "requirements": []
+}
