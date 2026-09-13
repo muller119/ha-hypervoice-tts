@@ -48,7 +48,7 @@ class HyperVoiceTTSEntity(TextToSpeechEntity):
         CONF_SPEED: DEFAULT_SPEED,
     }
     _attr_has_entity_name = True
-    _attr_name = None
+    _attr_name = "HyperVoice TTS"
 
     def __init__(self, config_entry: HyperVoiceConfigEntry) -> None:
         """Initialize the entity."""
